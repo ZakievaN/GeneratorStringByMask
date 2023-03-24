@@ -6,7 +6,7 @@ namespace ConsoleApp1
 {
     public static class GeneratorStringByMask
     {
-        public static List<string> MaskedRandom(string mask, string prefix, int count, SortedDictionary<string, bool> excludList)
+        public static List<string> MaskedRandom(string mask, string prefix, int count, SortedSet<string> excludList)
         {
             int limit = 3;
             var crowdList = new SortedDictionary<string, int>();
@@ -20,7 +20,7 @@ namespace ConsoleApp1
             {
                 GetRandomString(ref str, mask, prefix);
                 var id = str.ToString();
-                flag = excludList.ContainsKey(str.ToString());
+                flag = excludList.Contains(str.ToString());
 
                 if (flag && crowdList.ContainsKey(id) && crowdList[id] > limit)
                 {
@@ -28,8 +28,6 @@ namespace ConsoleApp1
                 }
                 else if (flag)
                 {
-                    excludList[id] = false;
-
                     if (!crowdList.ContainsKey(id))
                     {
                         crowdList.Add(id, 1);
@@ -42,7 +40,7 @@ namespace ConsoleApp1
                 else
                 {
                     result.Add(str.ToString());
-                    excludList.Add(str.ToString(), true);
+                    excludList.Add(str.ToString());
                     i++;
                 }
             }
